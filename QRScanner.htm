@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+</head>
+<body>
+    <button id="filePickerBtn">Select ScoutIn.txt</button>
+    <p id="fileStatus">No file selected.</p>
+    <video id="video" autoplay playsinline style="width: 100%; display: none;"></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <button id="saveBtn" style="display: none;">Save QR Code</button>
+    <p id="qrDataDisplay"></p>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script>
+        let fileHandle = null;
+        let lastQRData = "";
+
+        document.getElementById("filePickerBtn").addEventListener("click", async () => {
+            try {
+                [fileHandle] = await window.showOpenFilePicker({
+                    types: [{ description: 'Text Files', accept: { 'text/plain': ['.txt'] } }],
+                    multiple: false
+                });
+
+                document.getElementById("fileStatus").innerText = "Selected file: ScoutIn.txt";
+                alert("File selected! Now scanning QR codes...");
+                startQRScanner();
+            } catch (err) {
+                alert("File access denied or not supported.");
+            }
+        });
+
+        async function appendToFile() {
+            if (!fileHandle || !lastQRData) {
+                alert("No file selected or no QR data detected.");
+                return;
+            }
+
+            try {
+                // Read existing content
+                const file = await fileHandle.getFile();
+                let existingContent = await file.text();
+
+                // Append new QR data
+                const updatedContent = existingContent + "\n" + lastQRData;
+
+                // Request user activation before writing (fixes SecurityError)
+                const writable = await fileHandle.createWritable();
+                await writable.write(updatedContent);
+                await writable.close();
+
+                alert("QR Code saved to ScoutIn.txt!");
+                document.getElementById("saveBtn").style.display = "none"; // Hide button after saving
+            } catch (error) {
+                console.error("File write error:", error);
+                alert("Failed to save the QR Code. Ensure permissions are granted.");
+            }
+        }
+
+        async function startQRScanner() {
+            const video = document.getElementById("video");
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            video.srcObject = stream;
+            video.style.display = "block"; // Show video when scanning starts
+
+            function scanQRCode() {
+                if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                    if (code) {
+                        lastQRData = code.data;
+                        document.getElementById("qrDataDisplay").innerText = "QR Code: " + lastQRData;
+                        document.getElementById("saveBtn").style.display = "block"; // Show save button
+                        stream.getTracks().forEach(track => track.stop()); // Stop the camera
+                    } else {
+                        requestAnimationFrame(scanQRCode);
+                    }
+                } else {
+                    requestAnimationFrame(scanQRCode);
+                }
+            }
+
+            video.onloadedmetadata = () => requestAnimationFrame(scanQRCode);
+        }
+
+        document.getElementById("saveBtn").addEventListener("click", appendToFile);
+    </script>
+</body>
+</html>
