@@ -184,8 +184,8 @@
             </div>
 
             <button type="submit">Submit</button>
+            <button id="stack">Stack QRs</button>
         </form>
-        <button id="stack">Stack QRs</button>
     </div>
 
     <h2>Result:</h2>
@@ -196,6 +196,7 @@
 
     <script>
         var hold = ''
+        var holdhold = ''
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("myForm").addEventListener("stack", function (event) {
                 event.preventDefault();
@@ -263,6 +264,7 @@
             });
 
         document.getElementById("stack").addEventListener("click", ()=> {
+                hold = holdhold;
                 let formData = new FormData(document.getElementById('myForm'));
                 let resultArray = [];
 
@@ -277,9 +279,9 @@
                 });
 
                 let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
+                let finalResult2 = finalResult + "/" + holdhold;  
                 document.getElementById("result").textContent = finalResult2;
-                hold = finalResult2;
+                holdhold = finalResult2;
                 console.log(hold);
             });
     </script>    
