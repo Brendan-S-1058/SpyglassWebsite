@@ -221,7 +221,9 @@
                 console.log(hold);
             });
             document.getElementById("myForm").addEventListener("submit", function (event) {
+                event.preventDefault();
                 loc = this.getAttribute('data-loc');
+                console.log(loc);
                 if (loc == 'sub') {
                     event.preventDefault(); // Prevent form submission
                     
@@ -280,6 +282,7 @@
                     height: 256
                 });
                 //text: "https://classroom.google.com/c/NTA1NjYyNTEyMTE5?cjc=mhalu52",
+                //for check
             }
         });
     </script>    
