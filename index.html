@@ -183,8 +183,8 @@
                 <input type="text" id="Comments" name="Comments">
             </div>
 
-            <button type="submit">Submit</button>
-            <button id="stack">Stack QRs</button>
+            <button type="submit" data-loc="sub">Submit</button>
+            <button type="submit" data-loc="stack">Stack QRs</button>
             <button id="res">Reset Form</button>
         </form>
     </div>
@@ -221,25 +221,49 @@
                 console.log(hold);
             });
             document.getElementById("myForm").addEventListener("submit", function (event) {
-                event.preventDefault(); // Prevent form submission
-                
-                let formData = new FormData(this);
-                let resultArray = [];
+                loc = this.getAttribute('data-loc');
+                if (loc == 'sub') {
+                    event.preventDefault(); // Prevent form submission
+                    
+                    let formData = new FormData(this);
+                    let resultArray = [];
 
-                formData.forEach((value, key) => {
-                    if (value === "true") {
-                        resultArray.push("1");
-                    } else if (value === "false") {
-                        resultArray.push("0");
-                    } else {
-                        resultArray.push(value);
-                    }
-                });
+                    formData.forEach((value, key) => {
+                        if (value === "true") {
+                            resultArray.push("1");
+                        } else if (value === "false") {
+                            resultArray.push("0");
+                        } else {
+                            resultArray.push(value);
+                        }
+                    });
 
-                let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
-                document.getElementById("result").textContent = finalResult2;
-                console.log(finalResult2);
+                    let finalResult = resultArray.join(",");
+                    let finalResult2 = finalResult + "/" + hold;  
+                    document.getElementById("result").textContent = finalResult2;
+                    console.log(finalResult2);
+                } else if (loc == 'stack') {
+                    event.preventDefault(); // Prevent form submission
+                    
+                    let formData = new FormData(this);
+                    let resultArray = [];
+
+                    formData.forEach((value, key) => {
+                        if (value === "true") {
+                            resultArray.push("1");
+                        } else if (value === "false") {
+                            resultArray.push("0");
+                        } else {
+                            resultArray.push(value);
+                        }
+                    });
+
+                    let finalResult = resultArray.join(",");
+                    let finalResult2 = finalResult + "/" + hold;  
+                    document.getElementById("result").textContent = finalResult2;
+                    console.log(finalResult2);
+                    hold = finalResult2;
+                }
 
                 generateQRCode(finalResult2);
             });
@@ -258,31 +282,6 @@
                 //text: "https://classroom.google.com/c/NTA1NjYyNTEyMTE5?cjc=mhalu52",
             }
         });
-
-        document.getElementById("res").addEventListener("click", ()=> {
-            document.getElementById("myForm").reset();
-            });
-
-        document.getElementById("stack").addEventListener("click", ()=> {
-                let formData = new FormData(document.getElementById('myForm'));
-                let resultArray = [];
-
-                formData.forEach((value, key) => {
-                    if (value === "true") {
-                        resultArray.push("1");
-                    } else if (value === "false") {
-                        resultArray.push("0");
-                    } else {
-                        resultArray.push(value);
-                    }
-                });
-
-                let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
-                document.getElementById("result").textContent = finalResult2;
-                hold = finalResult2;
-                console.log(hold);
-            });
     </script>    
 
 </body>
