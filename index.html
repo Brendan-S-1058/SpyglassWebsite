@@ -184,7 +184,7 @@
             </div>
 
             <button type="submit" data-loc="sub">Submit</button>
-            <button type="submit" data-loc="stack">Stack QRs</button>
+            <button type="stack" data-loc="stack">Stack QRs</button>
             <button id="res">Reset Form</button>
         </form>
     </div>
@@ -221,12 +221,7 @@
                 console.log(hold);
             });
             document.getElementById("myForm").addEventListener("submit", function (event) {
-                event.preventDefault();
-                loc = this.getAttribute('data-loc');
-                console.log(loc);
-                if (loc == 'sub') {
-                    event.preventDefault(); // Prevent form submission
-                    
+                event.preventDefault();                    
                     let formData = new FormData(this);
                     let resultArray = [];
 
@@ -244,28 +239,6 @@
                     let finalResult2 = finalResult + "/" + hold;  
                     document.getElementById("result").textContent = finalResult2;
                     console.log(finalResult2);
-                } else if (loc == 'stack') {
-                    event.preventDefault(); // Prevent form submission
-                    
-                    let formData = new FormData(this);
-                    let resultArray = [];
-
-                    formData.forEach((value, key) => {
-                        if (value === "true") {
-                            resultArray.push("1");
-                        } else if (value === "false") {
-                            resultArray.push("0");
-                        } else {
-                            resultArray.push(value);
-                        }
-                    });
-
-                    let finalResult = resultArray.join(",");
-                    let finalResult2 = finalResult + "/" + hold;  
-                    document.getElementById("result").textContent = finalResult2;
-                    console.log(finalResult2);
-                    hold = finalResult2;
-                }
 
                 generateQRCode(finalResult2);
             });
@@ -282,7 +255,6 @@
                     height: 256
                 });
                 //text: "https://classroom.google.com/c/NTA1NjYyNTEyMTE5?cjc=mhalu52",
-                //for check
             }
         });
     </script>    
