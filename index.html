@@ -264,26 +264,27 @@
             });
 
         document.getElementById("stack").addEventListener("click", ()=> {
-                hold = holdhold;
-                let formData = new FormData(document.getElementById('myForm'));
-                let resultArray = [];
+            hold = holdhold;
+            console.log (holdhold);
+            let formData = new FormData(document.getElementById('myForm'));
+            let resultArray = [];
 
-                formData.forEach((value, key) => {
-                    if (value === "true") {
-                        resultArray.push("1");
-                    } else if (value === "false") {
-                        resultArray.push("0");
-                    } else {
-                        resultArray.push(value);
-                    }
-                });
-
-                let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
-                document.getElementById("result").textContent = finalResult2;
-                holdhold = finalResult2;
-                console.log(hold);
+            formData.forEach((value, key) => {
+                if (value === "true") {
+                    resultArray.push("1");
+                } else if (value === "false") {
+                    resultArray.push("0");
+                } else {
+                    resultArray.push(value);
+                }
             });
+
+            let finalResult = resultArray.join(",");
+            let finalResult2 = finalResult + "/" + hold;  
+            document.getElementById("result").textContent = finalResult2;
+            holdhold = finalResult2;
+            console.log(hold);
+        });
     </script>    
 
 </body>
