@@ -198,24 +198,27 @@
     <script>
         var hold = ''
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("myForm").addEventListener("stack", function (event) {
+            document.getElementById("myForm").addEventListener("stack", () => {
                 event.preventDefault();
 
                 let formData = new FormData(this);
                 let resultArray = [];
+                if (value == '') {
+                    formData.forEach((value, key) => {
+                        if (value === "true") {
+                            resultArray.push("1");
+                        } else if (value === "false") {
+                            resultArray.push("0");
+                        } else {
+                            resultArray.push(value);
+                        }
+                    });
 
-                formData.forEach((value, key) => {
-                    if (value === "true") {
-                        resultArray.push("1");
-                    } else if (value === "false") {
-                        resultArray.push("0");
-                    } else {
-                        resultArray.push(value);
-                    }
-                });
-
-                let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
+                    let finalResult = resultArray.join(",");
+                    let finalResult2 = finalResult + "/" + hold;  
+                } else {
+                    let finalResult2 = hold;
+                }
                 document.getElementById("result").textContent = finalResult2;
                 hold = finalResult2;
                 console.log(hold);
@@ -261,6 +264,8 @@
 
         document.getElementById("res").addEventListener("click", ()=> {
             document.getElementById("myForm").reset();
+
+            hold = '';
             });
 
         document.getElementById("stack").addEventListener("click", ()=> {
