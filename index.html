@@ -241,8 +241,8 @@
                     let finalResult2 = hold;
                 }
                 document.getElementById("result").textContent = finalResult2;
-                hold = finalResult2;
                 console.log(hold);
+                generateQRCode(finalResult2)
             });
 
             function generateQRCode(text) {
