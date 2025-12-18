@@ -214,13 +214,15 @@
                 });
 
                 let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
+                let finalResult2 = finalResult + "/" + hold;
                 document.getElementById("result").textContent = finalResult2;
                 hold = finalResult2;
                 console.log(hold);
             });
             document.getElementById("myForm").addEventListener("submit", function (event) {
                 event.preventDefault();
+
+                let finalResult2 = '';
 
                 let formData = new FormData(this);
                 let resultArray = [];
@@ -236,9 +238,9 @@
                     });
 
                     let finalResult = resultArray.join(",");
-                    let finalResult2 = finalResult + "/" + hold;  
+                    finalResult2 = finalResult + "/" + hold;  
                 } else {
-                    let finalResult2 = hold;
+                    finalResult2 = hold;
                 }
                 document.getElementById("result").textContent = finalResult2;
                 console.log(hold);
