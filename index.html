@@ -203,7 +203,28 @@
 
                 let formData = new FormData(this);
                 let resultArray = [];
-                if (value == '') {
+                formData.forEach((value, key) => {
+                    if (value === "true") {
+                        resultArray.push("1");
+                    } else if (value === "false") {
+                        resultArray.push("0");
+                    } else {
+                        resultArray.push(value);
+                    }
+                });
+
+                let finalResult = resultArray.join(",");
+                let finalResult2 = finalResult + "/" + hold;  
+                document.getElementById("result").textContent = finalResult2;
+                hold = finalResult2;
+                console.log(hold);
+            });
+            document.getElementById("myForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                let formData = new FormData(this);
+                let resultArray = [];
+                if (hold == '') {
                     formData.forEach((value, key) => {
                         if (value === "true") {
                             resultArray.push("1");
@@ -222,29 +243,6 @@
                 document.getElementById("result").textContent = finalResult2;
                 hold = finalResult2;
                 console.log(hold);
-            });
-            document.getElementById("myForm").addEventListener("submit", function (event) {
-                event.preventDefault(); // Prevent form submission
-                
-                let formData = new FormData(this);
-                let resultArray = [];
-
-                formData.forEach((value, key) => {
-                    if (value === "true") {
-                        resultArray.push("1");
-                    } else if (value === "false") {
-                        resultArray.push("0");
-                    } else {
-                        resultArray.push(value);
-                    }
-                });
-
-                let finalResult = resultArray.join(",");
-                let finalResult2 = finalResult + "/" + hold;  
-                document.getElementById("result").textContent = finalResult2;
-                console.log(finalResult2);
-
-                generateQRCode(finalResult2);
             });
 
             function generateQRCode(text) {
