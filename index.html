@@ -127,6 +127,13 @@
                 <label for="TeamNumber">Team Number</label>
                 <input type="text" id="TeamNumber" name="TeamNumber">
             </div>
+                <div class="form-group">
+                <label for="Alliance">Alliance</label>
+                <select id="Alliance" name="Alliance">
+                    <option value="0">Red</option>
+                    <option value="1">Blue</option>
+                </select>            
+            </div>
             <div class="form-group">
                 <label for="AutoMove">Auto Move</label>
                 <select id="AutoMove" name="AutoMove">
@@ -213,7 +220,7 @@
                     }
                 });
 
-                let finalResult = resultArray.join(",");
+                let finalResult = resultArray.join("≲").replaceAll(',','-').replaceAll('≲', ',');
                 let finalResult2 = finalResult + "/" + hold;
                 document.getElementById("result").textContent = finalResult2;
                 hold = finalResult2;
@@ -237,7 +244,7 @@
                         }
                     });
 
-                    let finalResult = resultArray.join(",");
+                    let finalResult = resultArray.join("≲").replaceAll(',','-').replaceAll('≲', ',');
                     finalResult2 = finalResult + "/" + hold;  
                 } else {
                     finalResult2 = hold;
@@ -281,7 +288,7 @@
                     }
                 });
 
-                let finalResult = resultArray.join(",");
+                let finalResult = resultArray.join("≲").replaceAll(',','-').replaceAll('≲', ',');
                 let finalResult2 = finalResult + "/" + hold;  
                 document.getElementById("result").textContent = finalResult2;
                 hold = finalResult2;
